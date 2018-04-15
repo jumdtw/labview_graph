@@ -1,6 +1,6 @@
 """
-時間が","、電圧が"\n"で区切られているため、これを利用し時間用のリストtime、電圧用のリストvolにそれぞれの値を代入。
-その後matplotlibを利用し折れ線グラフを作成する。
+時間が","、電圧が"\n"で区切られているため、これを利用し時間用のリストtime、電圧用のリストvolにそれぞれの値を代入.
+その後matplotlibを利用し折れ線グラフを作成する。どこが最大値かわかりやすくするため同時に点も表示する.
 """
 
 import numpy as np
@@ -18,14 +18,17 @@ with open(file,'r') as f:
 time     : 測定開始時からの時間のリスト
 vol      : timeに対応した電圧のリスト 
 count    : 現在のtimeを確認するための変数
-i        : カウンター
+i,k      : カウンター
 baf_time :一時的に(string)時間をおくため
 baf_vol  :一時的に(string)電圧をおくため
+line_x   : 直線グラフのx軸
+key_time :最大電圧時の時間
+key_vol  :最大電圧 
 """
 flag = 0
 time = [0]
 vol = []
-i = 0
+i = k = 0
 count = 0
 key = 18.0
 baf_time = None
@@ -52,7 +55,17 @@ while time[count] != key:
     else:
         count += 1
 
+key_vol = max(vol)
+
+while 1:
+    if vol[k] == key_vol:
+        line_x = k
+        break
+    k += 1
+
+print("最大電圧: " + str(vol[k]) + " V\n" + "計測開始からの時間: " + str(time[k]) + "秒\n")
 left = np.array(time)
 height = np.array(vol)
-plt.plot(left,height,linewidth = 1,color="red")
-plt.show()
+p = plt.plot(time[k],vol[k],'o',color = "red")
+p = plt.plot(left,height,linewidth = 1,color="black")
+plt.show(p)
