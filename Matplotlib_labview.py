@@ -1,3 +1,10 @@
+"""
+時間が","、電圧が"\n"で区切られているため、これを利用し時間用のリストtime、電圧用のリストvolにそれぞれの値を代入。
+その後matplotlibを利用し折れ線グラフを作成する。
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt 
 import sys
 
 #データ名を引数に取り、各datafileを読み込む.
@@ -24,16 +31,18 @@ key = 18.0
 baf_time = None
 baf_vol = None
 #18秒になるまでdataを取得.pythonにdo-whileがないのでkeyを使って代用
-while time[count] == key:
+while time[count] != key:
     if(flag == 0):
         del time[0]
+    baf_time = "0"
+    baf_vol = "0"
     while datas[i] != ",":
         baf_time = baf_time + datas[i]
         i += 1
     time.append(float(baf_time))
     i += 1
-    while datas[i] != "/n":
-        baf_vol = baf_vol * datas[i]
+    while datas[i] != "\n":
+        baf_vol = baf_vol + datas[i]
         i += 1
     vol.append(float(baf_vol))
     i += 1
@@ -43,3 +52,9 @@ while time[count] == key:
     else:
         count += 1
 
+print(vol)
+"""
+left = np.array(time)
+height = np.array(vol)
+plt.plot(left,height,linewidth = 4,color="red")
+"""
