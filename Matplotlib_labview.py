@@ -52,9 +52,7 @@ while time[count] != key:
     else:
         count += 1
 
-print(vol)
-"""
 left = np.array(time)
 height = np.array(vol)
-plt.plot(left,height,linewidth = 4,color="red")
-"""
+plt.plot(left,height,linewidth = 1,color="red")
+plt.show()
