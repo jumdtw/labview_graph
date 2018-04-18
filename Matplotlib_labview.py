@@ -43,11 +43,13 @@ def main():
             del time[0]
         baf_time = "0"
         baf_vol = "0"
+        #時間データの取り出し
         while datas[i] != ",":
             baf_time = baf_time + datas[i]
             i += 1
         time.append(float(baf_time))
         i += 1
+        #電圧データの取り出し
         while datas[i] != "\n":
             baf_vol = baf_vol + datas[i]
             i += 1
@@ -60,6 +62,7 @@ def main():
             key_vol = 0
             v += 1
             print(str(v) +"    "+str(time[len(time)-2])+"    "+str(vol[len(vol)-2]))
+            #検知直後に点を描画
             p = plt.plot(time[len(time)-2],vol[len(vol)-2],'o',color = "blue")
         #time[]とvol[]の現在扱っているインデックスとcountの数値を一緒にしたいため以下コードを記述
         if(flag==0):
