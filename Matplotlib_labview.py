@@ -23,17 +23,20 @@ def main():
     baf_time :一時的に(string)時間をおくため
     baf_vol  :一時的に(string)電圧をおくため
     line_x   : 直線グラフのx軸
-    key_time :最大電圧時の時間
-    key_vol  :最大電圧 
+    max_vol  :最大電圧 
+    key_vol  :電圧のflag
+    top_list :
     """
     flag = 0
     time = [0]
     vol = []
-    i = k = 0
+    i = k = v =0
     count = 0
     key = 18.0
     baf_time = None
     baf_vol = None
+    key_vol = 0
+    print("波形番号    "+"時刻(秒)    "+"電圧(V)")
     #18秒になるまでdataを取得.pythonにdo-whileがないのでkeyを使って代用
     while time[count] != key:
         if(flag == 0):
@@ -50,20 +53,30 @@ def main():
             i += 1
         vol.append(float(baf_vol))
         i += 1
+        #山の頂点に点を打つ。
+        if(key_vol<=vol[len(vol)-1]):
+            key_vol = vol[len(vol)-1]
+        elif(vol[len(vol)-2]>=3.5):
+            key_vol = 0
+            v += 1
+            print(str(v) +"    "+str(time[len(time)-2])+"    "+str(vol[len(vol)-2]))
+            p = plt.plot(time[len(time)-2],vol[len(vol)-2],'o',color = "blue")
         #time[]とvol[]の現在扱っているインデックスとcountの数値を一緒にしたいため以下コードを記述
         if(flag==0):
             flag += 1
         else:
             count += 1
 
-    key_vol = max(vol)
+    max_vol = max(vol)
 
     while 1:
-        if vol[k] == key_vol:
+        if vol[k] == max_vol:
             line_x = k
             break
         k += 1
 
+
+    print("\n\n")
     print("最大電圧: " + str(vol[k]) + " V\n" + "計測開始からの時間: " + str(time[k]) + "秒\n")
     left = np.array(time)
     height = np.array(vol)
